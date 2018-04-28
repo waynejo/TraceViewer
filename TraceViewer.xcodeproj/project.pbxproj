@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67EB74169F67297D917926DF /* Pods_TraceViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */; };
 		DF56470A209424B400C2ECFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF564709209424B400C2ECFF /* AppDelegate.swift */; };
 		DF56470C209424B400C2ECFF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56470B209424B400C2ECFF /* ViewController.swift */; };
 		DF56470E209424B500C2ECFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF56470D209424B500C2ECFF /* Assets.xcassets */; };
@@ -33,6 +34,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22DEEF43144DD89175BB169C /* Pods-TraceViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraceViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TraceViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F66012E4009FBA9B576BA92 /* Pods-TraceViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraceViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer.release.xcconfig"; sourceTree = "<group>"; };
 		DF564706209424B400C2ECFF /* TraceViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraceViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF564709209424B400C2ECFF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF56470B209424B400C2ECFF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67EB74169F67297D917926DF /* Pods_TraceViewer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +78,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		081BE8BD4974247BD85D9092 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				22DEEF43144DD89175BB169C /* Pods-TraceViewer.debug.xcconfig */,
+				7F66012E4009FBA9B576BA92 /* Pods-TraceViewer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A7CA012DAC1E560BCC09138D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DF5646FD209424B400C2ECFF = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +102,8 @@
 				DF56471B209424B600C2ECFF /* TraceViewerTests */,
 				DF564726209424B600C2ECFF /* TraceViewerUITests */,
 				DF564707209424B400C2ECFF /* Products */,
+				081BE8BD4974247BD85D9092 /* Pods */,
+				A7CA012DAC1E560BCC09138D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,9 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF56472C209424B600C2ECFF /* Build configuration list for PBXNativeTarget "TraceViewer" */;
 			buildPhases = (
+				79060AC2405FF44BEE22AD99 /* [CP] Check Pods Manifest.lock */,
 				DF564702209424B400C2ECFF /* Sources */,
 				DF564703209424B400C2ECFF /* Frameworks */,
 				DF564704209424B400C2ECFF /* Resources */,
+				C54B25475304F66B06D9E3B4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,6 +274,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		79060AC2405FF44BEE22AD99 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TraceViewer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C54B25475304F66B06D9E3B4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DF564702209424B400C2ECFF /* Sources */ = {
@@ -417,16 +482,14 @@
 		};
 		DF56472D209424B600C2ECFF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 22DEEF43144DD89175BB169C /* Pods-TraceViewer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TraceViewer/TraceViewer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TraceViewer/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = waynejo.TraceViewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -435,16 +498,14 @@
 		};
 		DF56472E209424B600C2ECFF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F66012E4009FBA9B576BA92 /* Pods-TraceViewer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TraceViewer/TraceViewer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TraceViewer/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = waynejo.TraceViewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -459,11 +520,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TraceViewerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = waynejo.TraceViewerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -479,11 +536,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TraceViewerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = waynejo.TraceViewerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -498,11 +551,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TraceViewerUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = waynejo.TraceViewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -517,11 +566,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = TraceViewerUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = waynejo.TraceViewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
