@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import SnapKit
 
 class ViewController: NSViewController, NSWindowDelegate {
 
@@ -14,6 +15,12 @@ class ViewController: NSViewController, NSWindowDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let frameView = FrameView()
+        view.addSubview(frameView)
+
+        frameView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
     }
 
     override func viewDidAppear() {

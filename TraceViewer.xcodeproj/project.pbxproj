@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		570A91AA970F5EDC949097E1 /* FrameDrawingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */; };
+		570A99F39952B5F1E9CC35A2 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A93656050C933D6946C43 /* FrameView.swift */; };
 		67EB74169F67297D917926DF /* Pods_TraceViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */; };
 		DF56470A209424B400C2ECFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF564709209424B400C2ECFF /* AppDelegate.swift */; };
 		DF56470C209424B400C2ECFF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56470B209424B400C2ECFF /* ViewController.swift */; };
@@ -35,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		22DEEF43144DD89175BB169C /* Pods-TraceViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraceViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		570A93656050C933D6946C43 /* FrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
+		570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameDrawingState.swift; sourceTree = "<group>"; };
 		7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TraceViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F66012E4009FBA9B576BA92 /* Pods-TraceViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraceViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer.release.xcconfig"; sourceTree = "<group>"; };
 		DF564706209424B400C2ECFF /* TraceViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraceViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +91,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		570A94ADF9DBDCFC29BDF6FE /* view */ = {
+			isa = PBXGroup;
+			children = (
+				570A93656050C933D6946C43 /* FrameView.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		570A9773284DE9DDBC831D73 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		A7CA012DAC1E560BCC09138D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +146,8 @@
 				DF56470F209424B600C2ECFF /* Main.storyboard */,
 				DF564712209424B600C2ECFF /* Info.plist */,
 				DF564713209424B600C2ECFF /* TraceViewer.entitlements */,
+				570A94ADF9DBDCFC29BDF6FE /* view */,
+				570A9773284DE9DDBC831D73 /* model */,
 			);
 			path = TraceViewer;
 			sourceTree = "<group>";
@@ -159,7 +181,7 @@
 				DF564702209424B400C2ECFF /* Sources */,
 				DF564703209424B400C2ECFF /* Frameworks */,
 				DF564704209424B400C2ECFF /* Resources */,
-				C54B25475304F66B06D9E3B4 /* [CP] Embed Pods Frameworks */,
+				A96C87DF5C7BF2DC39F38A2E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -294,7 +316,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C54B25475304F66B06D9E3B4 /* [CP] Embed Pods Frameworks */ = {
+		A96C87DF5C7BF2DC39F38A2E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -321,6 +343,8 @@
 			files = (
 				DF56470C209424B400C2ECFF /* ViewController.swift in Sources */,
 				DF56470A209424B400C2ECFF /* AppDelegate.swift in Sources */,
+				570A99F39952B5F1E9CC35A2 /* FrameView.swift in Sources */,
+				570A91AA970F5EDC949097E1 /* FrameDrawingState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
