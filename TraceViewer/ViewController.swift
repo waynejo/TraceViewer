@@ -8,12 +8,18 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, NSWindowDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+
+        self.view.window?.delegate = self
     }
 
     override var representedObject: Any? {
@@ -22,6 +28,8 @@ class ViewController: NSViewController {
         }
     }
 
-
+    public func windowWillClose(_ notification: Notification) {
+        NSApplication.shared.terminate(self)
+    }
 }
 
