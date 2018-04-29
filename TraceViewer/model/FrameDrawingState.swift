@@ -2,11 +2,11 @@
 import Foundation
 
 struct FrameDrawingState {
-    let beginMs: Int
-    let scaleNs: Int
+    let beginNs: Int64
+    let scaleNs: Int64
 
     init() {
-        beginMs = 0
+        beginNs = 0
         scaleNs = 10000
     }
 }
