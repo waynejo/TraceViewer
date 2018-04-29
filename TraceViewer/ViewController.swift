@@ -48,10 +48,10 @@ class ViewController: NSViewController, NSWindowDelegate {
         if event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains(.command) {
             let scaleBase = 2.0
             let scaled = pow(Double(state.scaleNs), 1.0 / scaleBase)
-            let nextState = state.update(scaleNs: Int64(pow(scaled - Double(event.deltaY), scaleBase)))
+            let nextState = state.update(scaleNs: pow(scaled - Double(event.deltaY), scaleBase))
             frameView.update(drawingState: nextState)
         } else {
-            let nextState = state.update(beginNs: state.beginNs - state.scaleNs * Int64(event.deltaY))
+            let nextState = state.update(beginNs: state.beginNs - Int64(state.scaleNs * Double(event.deltaY)))
             frameView.update(drawingState: nextState)
         }
     }

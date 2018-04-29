@@ -32,15 +32,15 @@ class FrameView: NSView {
         let left = chartLeftMargin
         let width = Int(frame.width)
         let chartWidth = width - left
-        let endNs = scaleNs * Int64(width - left)
+        let endNs = beginNs + Int64(scaleNs * Double(width - left))
 
         for stack in stacks {
             if endNs <= stack.beginNs || beginNs >= stack.endNs {
                 continue
             }
 
-            let xBegin = max(0, Int((stack.beginNs - beginNs) / scaleNs))
-            let xEnd = min(chartWidth, Int((stack.endNs - beginNs) / scaleNs))
+            let xBegin = max(0, Int(Double(stack.beginNs - beginNs) / scaleNs))
+            let xEnd = min(chartWidth, Int(Double(stack.endNs - beginNs) / scaleNs))
             context.setFillColor(red: 0.501, green: 0.694, blue: 0.796, alpha: 1.0)
             context.fill(NSRect(x: left + xBegin, y: chartBottomMargin, width: max(1, xEnd - xBegin), height: chartBarHeight))
         }
@@ -60,7 +60,7 @@ class FrameView: NSView {
             NSAttributedStringKey.foregroundColor: textColor,
         ]
         for xPos in stride(from: left, to: width, by: xDelta) {
-            let time = (beginNs + scaleNs * Int64(xPos - left)) / 1000
+            let time = (beginNs + Int64(scaleNs * Double(xPos - left))) / 1000
             let timeText = String(time)
             let size = timeText.size(withAttributes: textAttributes)
             timeText.draw(at: NSMakePoint(CGFloat(xPos) - size.width / 2.0, CGFloat(yPos)), withAttributes: textAttributes)
