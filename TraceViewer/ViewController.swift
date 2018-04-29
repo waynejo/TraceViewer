@@ -44,8 +44,16 @@ class ViewController: NSViewController, NSWindowDelegate {
         super.scrollWheel(with: event)
 
         let state = frameView.state()
-        let nextState = state.update(beginNs: state.beginNs - state.scaleNs * Int64(event.deltaY))
-        frameView.update(drawingState: nextState)
+
+        if event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains(.command) {
+            let scaleBase = 2.0
+            let scaled = pow(Double(state.scaleNs), 1.0 / scaleBase)
+            let nextState = state.update(scaleNs: Int64(pow(scaled - Double(event.deltaY), scaleBase)))
+            frameView.update(drawingState: nextState)
+        } else {
+            let nextState = state.update(beginNs: state.beginNs - state.scaleNs * Int64(event.deltaY))
+            frameView.update(drawingState: nextState)
+        }
     }
 }
 

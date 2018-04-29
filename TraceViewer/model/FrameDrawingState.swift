@@ -18,4 +18,8 @@ struct FrameDrawingState {
     func update(beginNs: Int64) -> FrameDrawingState {
         return FrameDrawingState(beginNs: beginNs, scaleNs: scaleNs)
     }
+
+    func update(scaleNs: Int64) -> FrameDrawingState {
+        return FrameDrawingState(beginNs: beginNs, scaleNs: scaleNs)
+    }
 }
