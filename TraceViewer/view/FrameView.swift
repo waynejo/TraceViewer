@@ -24,6 +24,9 @@ class FrameView: NSView {
             return
         }
 
+        stacks.append(TraceStack(beginNs: 1000, endNs: 2500))
+        stacks.append(TraceStack(beginNs: 1000000, endNs: 2000000))
+
         drawBackground(context: context, dirtyRect: dirtyRect)
         drawBottomLabels()
         drawingChart(context: context, stacks: stacks)
@@ -105,7 +108,8 @@ class FrameView: NSView {
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
 
-        let nextState = drawingState.update(beginNs: drawingState.beginNs - Int64(drawingState.scaleNs * Double(event.deltaX)))
+        let nsDelta = Int64(drawingState.scaleNs * Double(event.deltaX))
+        let nextState = drawingState.update(beginNs: drawingState.beginNs - nsDelta)
         update(drawingState: nextState)
     }
 }
