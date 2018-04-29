@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		570A91AA970F5EDC949097E1 /* FrameDrawingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */; };
 		570A93A33545EAE0A56A9030 /* TraceStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A943F7F6EFF57A6EDAF58 /* TraceStack.swift */; };
+		570A97AB67B41BA6420D5604 /* AndroidTraceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A9138F6C09012E552903A /* AndroidTraceParser.swift */; };
 		570A99F39952B5F1E9CC35A2 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A93656050C933D6946C43 /* FrameView.swift */; };
 		67EB74169F67297D917926DF /* Pods_TraceViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */; };
 		DF56470A209424B400C2ECFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF564709209424B400C2ECFF /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		22DEEF43144DD89175BB169C /* Pods-TraceViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraceViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		570A9138F6C09012E552903A /* AndroidTraceParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AndroidTraceParser.swift; sourceTree = "<group>"; };
 		570A93656050C933D6946C43 /* FrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
 		570A943F7F6EFF57A6EDAF58 /* TraceStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraceStack.swift; sourceTree = "<group>"; };
 		570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameDrawingState.swift; sourceTree = "<group>"; };
@@ -105,8 +107,17 @@
 			isa = PBXGroup;
 			children = (
 				570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */,
+				570A943F7F6EFF57A6EDAF58 /* TraceStack.swift */,
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		570A9ABE9A017608CD97393E /* parsing */ = {
+			isa = PBXGroup;
+			children = (
+				570A9138F6C09012E552903A /* AndroidTraceParser.swift */,
+			);
+			path = parsing;
 			sourceTree = "<group>";
 		};
 		A7CA012DAC1E560BCC09138D /* Frameworks */ = {
@@ -150,6 +161,7 @@
 				DF564713209424B600C2ECFF /* TraceViewer.entitlements */,
 				570A94ADF9DBDCFC29BDF6FE /* view */,
 				570A9773284DE9DDBC831D73 /* model */,
+				570A9ABE9A017608CD97393E /* parsing */,
 			);
 			path = TraceViewer;
 			sourceTree = "<group>";
@@ -348,6 +360,7 @@
 				570A99F39952B5F1E9CC35A2 /* FrameView.swift in Sources */,
 				570A91AA970F5EDC949097E1 /* FrameDrawingState.swift in Sources */,
 				570A93A33545EAE0A56A9030 /* TraceStack.swift in Sources */,
+				570A97AB67B41BA6420D5604 /* AndroidTraceParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
