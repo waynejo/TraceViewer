@@ -101,4 +101,11 @@ class FrameView: NSView {
     public func state() -> FrameDrawingState {
         return drawingState
     }
+
+    override func mouseDragged(with event: NSEvent) {
+        super.mouseDragged(with: event)
+
+        let nextState = drawingState.update(beginNs: drawingState.beginNs - Int64(drawingState.scaleNs * Double(event.deltaX)))
+        update(drawingState: nextState)
+    }
 }
