@@ -9,11 +9,14 @@ class FrameView: NSView {
     let chartLeftMargin = 20
     let chartBottomMargin = 40
     let chartBarHeight = 15
-    let stacks = [TraceStack]()
+    let barColors = [
+        Color(red: 0.501, green: 0.694, blue: 0.796),
+        Color(red: 0.580, green: 0.812, blue: 0.631)
+    ]
 
-
+    var stacks = [TraceStack]()
     var drawingState = FrameDrawingState()
-    
+
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
@@ -26,7 +29,11 @@ class FrameView: NSView {
         drawingChart(context: context, stacks: stacks)
     }
 
-    private func drawingChart(context: CGContext, stacks: [TraceStack]) {
+    private func barColor(idx: Int) -> Color {
+        return barColors[idx % barColors.count]
+    }
+
+    private func drawingChart(context: CGContext, stacks: [TraceStack], depth: Int = 0) {
         let beginNs = drawingState.beginNs
         let scaleNs = drawingState.scaleNs
         let left = chartLeftMargin
@@ -34,15 +41,22 @@ class FrameView: NSView {
         let chartWidth = width - left
         let endNs = beginNs + Int64(scaleNs * Double(width - left))
 
-        for stack in stacks {
+        for idx in stacks.indices {
+            let stack = stacks[idx]
             if endNs <= stack.beginNs || beginNs >= stack.endNs {
                 continue
             }
 
+            let color = barColor(idx: idx)
             let xBegin = max(0, Int(Double(stack.beginNs - beginNs) / scaleNs))
             let xEnd = min(chartWidth, Int(Double(stack.endNs - beginNs) / scaleNs))
-            context.setFillColor(red: 0.501, green: 0.694, blue: 0.796, alpha: 1.0)
-            context.fill(NSRect(x: left + xBegin, y: chartBottomMargin, width: max(1, xEnd - xBegin), height: chartBarHeight))
+            context.setFillColor(red: color.red, green: color.green, blue: color.blue, alpha: 1.0)
+
+            let drawX = left + xBegin
+            let drawY = chartBottomMargin + chartBarHeight * depth
+            let drawWidth = max(1, xEnd - xBegin)
+            context.fill(NSRect(x: drawX, y: drawY, width: drawWidth, height: chartBarHeight))
+            drawingChart(context: context, stacks: stack.children, depth: depth + 1)
         }
     }
 
@@ -70,6 +84,12 @@ class FrameView: NSView {
     private func drawBackground(context: CGContext, dirtyRect: NSRect) {
         context.setFillColor(red: 0.235, green: 0.247, blue: 0.254, alpha: 1.0)
         context.fill(dirtyRect)
+    }
+
+    public func update(stacks: [TraceStack]) {
+        self.stacks = stacks
+
+        self.display()
     }
 
     public func update(drawingState: FrameDrawingState) {
