@@ -71,4 +71,14 @@ class FrameView: NSView {
         context.setFillColor(red: 0.235, green: 0.247, blue: 0.254, alpha: 1.0)
         context.fill(dirtyRect)
     }
+
+    public func update(drawingState: FrameDrawingState) {
+        self.drawingState = drawingState
+
+        self.display()
+    }
+
+    public func state() -> FrameDrawingState {
+        return drawingState
+    }
 }

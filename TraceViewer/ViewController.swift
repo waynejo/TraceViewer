@@ -11,11 +11,12 @@ import SnapKit
 
 class ViewController: NSViewController, NSWindowDelegate {
 
+    let frameView = FrameView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let frameView = FrameView()
         view.addSubview(frameView)
 
         frameView.snp.makeConstraints { (make) -> Void in
@@ -37,6 +38,14 @@ class ViewController: NSViewController, NSWindowDelegate {
 
     public func windowWillClose(_ notification: Notification) {
         NSApplication.shared.terminate(self)
+    }
+
+    override func scrollWheel(with event: NSEvent) {
+        super.scrollWheel(with: event)
+
+        let state = frameView.state()
+        let nextState = state.update(beginNs: state.beginNs - state.scaleNs * Int64(event.deltaY))
+        frameView.update(drawingState: nextState)
     }
 }
 

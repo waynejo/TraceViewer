@@ -9,4 +9,13 @@ struct FrameDrawingState {
         beginNs = 0
         scaleNs = 10000
     }
+
+    init(beginNs: Int64, scaleNs: Int64) {
+        self.beginNs = beginNs
+        self.scaleNs = scaleNs
+    }
+
+    func update(beginNs: Int64) -> FrameDrawingState {
+        return FrameDrawingState(beginNs: beginNs, scaleNs: scaleNs)
+    }
 }
