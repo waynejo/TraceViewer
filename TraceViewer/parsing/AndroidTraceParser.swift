@@ -65,7 +65,7 @@ class AndroidTraceParser {
             let threadId = bytes.advanced(by: i).assumingMemoryBound(to: UInt16.self).pointee
             let methodIdWithFlag = bytes.advanced(by: i + 2).assumingMemoryBound(to: UInt32.self).pointee
             let wallTime = bytes.advanced(by: i + 10).assumingMemoryBound(to: UInt32.self).pointee
-            let methodId = Int(methodIdWithFlag >> 2)
+            let methodId = Int(methodIdWithFlag & (~3))
             let isStart = 0 == methodIdWithFlag & 1
             if isStart {
                 let childTrack = TraceStack(methodId: methodId, beginNs: Int64(wallTime) * 1000, endNs: Int64(wallTime) * 1000)
