@@ -3,6 +3,44 @@ import Foundation
 
 class AndroidTraceParser {
 
+    private static func readTraceInfo(data: NSData) -> TraceInfo? {
+        let bytes: UnsafeRawPointer = data.bytes
+        let dataLength = data.length
+        var idx = 0
+        var idxBegin = 0
+        var sectionType = ParsingSection.unknown
+        var traceInfo = TraceInfo()
+        while (idx < dataLength) {
+            let newChar = bytes.load(fromByteOffset: idx, as: UInt8.self)
+            if 10 == newChar {
+                let line = String(data: data.subdata(with: NSRange(location: idxBegin, length: idx - idxBegin)), encoding:.utf8) ?? ""
+                if line.starts(with: "*") {
+                    if line == "*version" {
+                        sectionType = .version
+                    } else if line == "*threads" {
+                        sectionType = .threads
+                    } else if line == "*methods" {
+                        sectionType = .methods
+                    } else {
+                        sectionType = .unknown
+                    }
+                } else {
+                    if sectionType == .methods {
+                        let words = line.split(separator: "\t")
+                        let methodId = Int(words[0].dropFirst(2), radix: 16) ?? 0
+                        let className = String(words[1])
+                        let methodName = String(words[2])
+                        traceInfo.updateMethod(id: methodId, name: className + " " + methodName)
+                    }
+                }
+                idxBegin = idx + 1
+            }
+            idx = idx + 1
+        }
+
+        return traceInfo
+    }
+
     private static func index(ofStackData data: NSData) -> Int? {
         let bytes: UnsafeRawPointer = data.bytes
         for i in 0 ..< data.length - 3 {
@@ -27,10 +65,10 @@ class AndroidTraceParser {
             let threadId = bytes.advanced(by: i).assumingMemoryBound(to: UInt16.self).pointee
             let methodIdWithFlag = bytes.advanced(by: i + 2).assumingMemoryBound(to: UInt32.self).pointee
             let wallTime = bytes.advanced(by: i + 10).assumingMemoryBound(to: UInt32.self).pointee
-            let methodId = methodIdWithFlag >> 2
-            let isStart = 0 == methodId & 1
+            let methodId = Int(methodIdWithFlag >> 2)
+            let isStart = 0 == methodIdWithFlag & 1
             if isStart {
-                let childTrack = TraceStack(beginNs: Int64(wallTime) * 1000, endNs: Int64(wallTime) * 1000)
+                let childTrack = TraceStack(methodId: methodId, beginNs: Int64(wallTime) * 1000, endNs: Int64(wallTime) * 1000)
                 currentTrace.children.append(childTrack)
                 currentTrace = childTrack
                 history.append(childTrack)
@@ -49,12 +87,14 @@ class AndroidTraceParser {
         return root.children
     }
 
-    static func parse(path: String) -> [TraceStack] {
+    static func parse(path: String) -> TraceInfo {
         guard let data = NSData(contentsOfFile: path),
+              let traceInfo = readTraceInfo(data: data),
               let dataIdx = index(ofStackData: data) else {
-            return [TraceStack]()
+            return TraceInfo()
         }
 
-        return read(data: data, idx: dataIdx)
+        traceInfo.update(traceStack: read(data: data, idx: dataIdx))
+        return traceInfo
     }
 }
