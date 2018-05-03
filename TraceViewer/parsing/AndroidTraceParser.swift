@@ -25,12 +25,21 @@ class AndroidTraceParser {
                         sectionType = .unknown
                     }
                 } else {
-                    if sectionType == .methods {
-                        let words = line.split(separator: "\t")
-                        let methodId = Int(words[0].dropFirst(2), radix: 16) ?? 0
-                        let className = String(words[1])
-                        let methodName = String(words[2])
-                        traceInfo.updateMethod(id: methodId, name: className + " " + methodName)
+                    switch sectionType {
+                        case .threads:
+                            let words = line.split(separator: "\t")
+                            let threadId = Int(words[0]) ?? -1
+                            let threadName = String(words[1])
+                            let threadInfo = ThreadInfo(id: threadId, name: threadName)
+                            traceInfo.append(threadInfo: threadInfo)
+                        case .methods:
+                            let words = line.split(separator: "\t")
+                            let methodId = Int(words[0].dropFirst(2), radix: 16) ?? 0
+                            let className = String(words[1])
+                            let methodName = String(words[2])
+                            traceInfo.updateMethod(id: methodId, name: className + " " + methodName)
+                        default:
+                            break
                     }
                 }
                 idxBegin = idx + 1

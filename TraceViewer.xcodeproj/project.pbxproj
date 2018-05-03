@@ -12,6 +12,7 @@
 		570A97AB67B41BA6420D5604 /* AndroidTraceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A9138F6C09012E552903A /* AndroidTraceParser.swift */; };
 		570A99F39952B5F1E9CC35A2 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A93656050C933D6946C43 /* FrameView.swift */; };
 		570A9A7269D6306E30D6FEC1 /* TraceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A9A904E570B9DFF20B193 /* TraceInfo.swift */; };
+		570A9AFD2BBD05264B045659 /* ThreadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A9E51328ACEE4361BB56E /* ThreadInfo.swift */; };
 		570A9C31DBF915A8D9A03E98 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A9B0307827C954E35B0AC /* Color.swift */; };
 		570A9D5DA46193125C5C6D45 /* ParsingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570A940BECD3331DB4AF929A /* ParsingSection.swift */; };
 		67EB74169F67297D917926DF /* Pods_TraceViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */; };
@@ -49,6 +50,7 @@
 		570A986B8A9C888AAA1C07AC /* FrameDrawingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameDrawingState.swift; sourceTree = "<group>"; };
 		570A9A904E570B9DFF20B193 /* TraceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraceInfo.swift; sourceTree = "<group>"; };
 		570A9B0307827C954E35B0AC /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		570A9E51328ACEE4361BB56E /* ThreadInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadInfo.swift; sourceTree = "<group>"; };
 		7700CC2F6BCEAD1B9743D349 /* Pods_TraceViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TraceViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F66012E4009FBA9B576BA92 /* Pods-TraceViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TraceViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-TraceViewer/Pods-TraceViewer.release.xcconfig"; sourceTree = "<group>"; };
 		DF564706209424B400C2ECFF /* TraceViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TraceViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 				570A943F7F6EFF57A6EDAF58 /* TraceStack.swift */,
 				570A9B0307827C954E35B0AC /* Color.swift */,
 				570A9A904E570B9DFF20B193 /* TraceInfo.swift */,
+				570A9E51328ACEE4361BB56E /* ThreadInfo.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				570A9C31DBF915A8D9A03E98 /* Color.swift in Sources */,
 				570A9A7269D6306E30D6FEC1 /* TraceInfo.swift in Sources */,
 				570A9D5DA46193125C5C6D45 /* ParsingSection.swift in Sources */,
+				570A9AFD2BBD05264B045659 /* ThreadInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
