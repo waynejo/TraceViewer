@@ -63,7 +63,7 @@ class AndroidTraceParser {
         return nil
     }
 
-    private static func read(data: NSData, idx: Int) -> [TraceStack] {
+    private static func read(data: NSData, idx: Int, threadId: Int) -> [TraceStack] {
         let bytes: UnsafeRawPointer = data.bytes
         let offset = Int(bytes.load(fromByteOffset: idx + 2, as: UInt8.self))
         let root = TraceStack(beginNs: 0, endNs: 0)
@@ -71,7 +71,10 @@ class AndroidTraceParser {
         var currentTrace = root
         var history: [TraceStack] = [TraceStack]()
         for i in stride(from: idx + offset + 10, to: data.length, by: 14) {
-            let threadId = bytes.advanced(by: i).assumingMemoryBound(to: UInt16.self).pointee
+            let thread = bytes.advanced(by: i).assumingMemoryBound(to: UInt16.self).pointee
+            if threadId != threadId {
+                continue
+            }
             let methodIdWithFlag = bytes.advanced(by: i + 2).assumingMemoryBound(to: UInt32.self).pointee
             let wallTime = bytes.advanced(by: i + 10).assumingMemoryBound(to: UInt32.self).pointee
             let methodId = Int(methodIdWithFlag & (~3))
@@ -103,7 +106,10 @@ class AndroidTraceParser {
             return TraceInfo()
         }
 
-        traceInfo.update(traceStack: read(data: data, idx: dataIdx))
+        for thread in traceInfo.threads {
+            thread.update(traceStacks: read(data: data, idx: dataIdx, threadId: thread.id))
+        }
+
         return traceInfo
     }
 }

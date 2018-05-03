@@ -2,12 +2,13 @@
 import Foundation
 
 class TraceInfo {
-    var traceStack: [TraceStack]
+
     var threads: [ThreadInfo]
     var methodMap: [Int: String]
 
-    init(traceStack: [TraceStack] = [TraceStack](), threads: [ThreadInfo] = [ThreadInfo](), methodMap: [Int: String] = [Int: String]()) {
-        self.traceStack = traceStack
+    init(threads: [ThreadInfo] = [ThreadInfo](),
+         methodMap: [Int: String] = [Int: String]()) {
+
         self.threads = threads
         self.methodMap = methodMap
     }
@@ -18,9 +19,5 @@ class TraceInfo {
 
     func append(threadInfo: ThreadInfo) {
         threads.append(threadInfo)
-    }
-
-    func update(traceStack: [TraceStack]) {
-        self.traceStack = traceStack
     }
 }

@@ -25,12 +25,9 @@ class FrameView: NSView {
             return
         }
 
-        traceInfo.traceStack.append(TraceStack(beginNs: 1000, endNs: 2500))
-        traceInfo.traceStack.append(TraceStack(beginNs: 1000000, endNs: 2000000))
-
         drawBackground(context: context, dirtyRect: dirtyRect)
         drawBottomLabels()
-        drawingChart(context: context, stacks: traceInfo.traceStack)
+        drawingChart(context: context, stacks: traceInfo.threads[0].traceStacks)
     }
 
     private func barColor(idx: Int) -> Color {
