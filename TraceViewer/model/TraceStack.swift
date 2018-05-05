@@ -17,4 +17,20 @@ class TraceStack {
     public func update(endNs: Int64) {
         self.endNs = endNs
     }
+
+    public func minTimeNs() -> Int64 {
+        let childrenMin = children.map {
+            $0.minTimeNs()
+        }.min()
+
+        return min(beginNs, min(endNs, childrenMin ?? beginNs))
+    }
+
+    public func maxTimeNs() -> Int64 {
+        let childrenMin = children.map {
+            $0.maxTimeNs()
+        }.max()
+
+        return max(beginNs, max(endNs, childrenMin ?? endNs))
+    }
 }

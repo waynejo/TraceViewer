@@ -9,7 +9,7 @@ class AndroidTraceParser {
         var idx = 0
         var idxBegin = 0
         var sectionType = ParsingSection.unknown
-        var traceInfo = TraceInfo()
+        let traceInfo = TraceInfo()
         while (idx < dataLength) {
             let newChar = bytes.load(fromByteOffset: idx, as: UInt8.self)
             if 10 == newChar {
@@ -72,7 +72,7 @@ class AndroidTraceParser {
         var history: [TraceStack] = [TraceStack]()
         for i in stride(from: idx + offset + 10, to: data.length, by: 14) {
             let thread = bytes.advanced(by: i).assumingMemoryBound(to: UInt16.self).pointee
-            if threadId != threadId {
+            if thread != threadId {
                 continue
             }
             let methodIdWithFlag = bytes.advanced(by: i + 2).assumingMemoryBound(to: UInt32.self).pointee
@@ -110,6 +110,6 @@ class AndroidTraceParser {
             thread.update(traceStacks: read(data: data, idx: dataIdx, threadId: thread.id))
         }
 
-        return traceInfo
+        return traceInfo.minMaxUpdated()
     }
 }

@@ -6,10 +6,11 @@ class ThreadInfo {
     let name: String
     var traceStacks: [TraceStack]
 
-    init(id: Int, name: String, threadStacks: [TraceStack] = [TraceStack]()) {
+
+    init(id: Int, name: String, traceStacks: [TraceStack] = [TraceStack]()) {
         self.id = id
         self.name = name
-        self.traceStacks = threadStacks
+        self.traceStacks = traceStacks
     }
 
     func update(traceStacks: [TraceStack]) {

@@ -101,6 +101,7 @@ class FrameView: NSView {
 
     public func update(traceInfo: TraceInfo) {
         self.traceInfo = traceInfo
+        update(drawingState: FrameDrawingState(beginNs: traceInfo.minTimeNs, scaleNs: drawingState.scaleNs))
 
         self.display()
     }
