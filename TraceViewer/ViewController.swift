@@ -12,6 +12,7 @@ import SnapKit
 class ViewController: NSViewController, NSWindowDelegate {
 
     let frameView = FrameView()
+    let threadComboBox: NSComboBox = NSComboBox()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,14 @@ class ViewController: NSViewController, NSWindowDelegate {
 
         frameView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
+        }
+
+        view.addSubview(threadComboBox)
+        threadComboBox.snp.makeConstraints { (make) -> Void in
+            make.edges.bottom.equalTo(view.snp.bottom)
+            make.edges.right.equalTo(view.snp.right)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
         }
     }
 
