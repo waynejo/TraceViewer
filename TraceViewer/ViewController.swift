@@ -10,39 +10,58 @@ import Cocoa
 import SnapKit
 
 class ViewController: NSViewController, NSWindowDelegate {
+    @IBOutlet weak var threadPopupButton: NSPopUpButton!
 
+    var traceInfo = TraceInfo()
     let frameView = FrameView()
-    let threadComboBox: NSComboBox = NSComboBox()
+    let frameView2 = FrameView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        frameView.update(traceInfo: traceInfo)
+
         view.addSubview(frameView)
 
-        frameView.snp.makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
-        }
+        updateLayout()
+        updateComboBox()
 
-        view.addSubview(threadComboBox)
-        threadComboBox.snp.makeConstraints { (make) -> Void in
-            make.edges.bottom.equalTo(view.snp.bottom)
-            make.edges.right.equalTo(view.snp.right)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
+        threadPopupButton.removeFromSuperview()
+        view.addSubview(threadPopupButton)
     }
 
     override func viewDidAppear() {
         super.viewDidAppear()
 
         self.view.window?.delegate = self
+        updateLayout()
     }
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+
+    func updateComboBox() {
+        threadPopupButton.removeAllItems()
+        for thread in traceInfo.threads {
+            threadPopupButton.addItem(withTitle: thread.name)
+        }
+    }
+
+    func updateLayout() {
+        guard let rect = view.window?.frame else {
+            return
+        }
+        frameView.frame = NSRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        frameView.display()
+    }
+
+    func windowDidResize(_ notification: Notification) {
+        updateLayout()
     }
 
     public func windowWillClose(_ notification: Notification) {
