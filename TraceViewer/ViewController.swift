@@ -13,17 +13,20 @@ class ViewController: NSViewController, NSWindowDelegate {
     @IBOutlet weak var threadPopupButton: NSPopUpButton!
 
     var traceInfo = TraceInfo()
-    let frameView = FrameView()
-    let frameView2 = FrameView()
+    var frameViewList = [FrameView]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        frameView.update(traceInfo: traceInfo)
 
-        view.addSubview(frameView)
+        for thread in traceInfo.threads {
+            let frameView = FrameView()
+            frameView.update(traceInfo: traceInfo, threadInfo: thread)
+            frameViewList.append(frameView)
+            view.addSubview(frameView)
+        }
 
         updateLayout()
         updateComboBox()
@@ -56,8 +59,14 @@ class ViewController: NSViewController, NSWindowDelegate {
         guard let rect = view.window?.frame else {
             return
         }
-        frameView.frame = NSRect(x: 0, y: 0, width: rect.width, height: rect.height)
-        frameView.display()
+        let viewNum = frameViewList.count
+        let viewHeight = Int(rect.height)
+        for idx in 0..<viewNum {
+            let yBegin = viewHeight * idx / viewNum
+            let yEnd = viewHeight * (idx + 1) / viewNum
+            frameViewList[idx].frame = NSRect(x: 0, y: yBegin, width: Int(rect.width), height: yEnd - yBegin)
+            frameViewList[idx].display()
+        }
     }
 
     func windowDidResize(_ notification: Notification) {
@@ -71,16 +80,18 @@ class ViewController: NSViewController, NSWindowDelegate {
     override func scrollWheel(with event: NSEvent) {
         super.scrollWheel(with: event)
 
-        let state = frameView.state()
+        for frameView in frameViewList {
+            let state = frameView.state()
 
-        if event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains(.command) {
-            let scaleBase = 2.0
-            let scaled = pow(Double(state.scaleNs), 1.0 / scaleBase)
-            let nextState = state.update(scaleNs: pow(scaled - Double(event.deltaY), scaleBase))
-            frameView.update(drawingState: nextState)
-        } else {
-            let nextState = state.update(beginNs: state.beginNs - Int64(state.scaleNs * Double(event.deltaY)))
-            frameView.update(drawingState: nextState)
+            if event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains(.command) {
+                let scaleBase = 2.0
+                let scaled = pow(Double(state.scaleNs), 1.0 / scaleBase)
+                let nextState = state.update(scaleNs: pow(scaled - Double(event.deltaY), scaleBase))
+                frameView.update(drawingState: nextState)
+            } else {
+                let nextState = state.update(beginNs: state.beginNs - Int64(state.scaleNs * Double(event.deltaY)))
+                frameView.update(drawingState: nextState)
+            }
         }
     }
 }

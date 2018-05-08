@@ -7,7 +7,7 @@ class ThreadInfo {
     var traceStacks: [TraceStack]
 
 
-    init(id: Int, name: String, traceStacks: [TraceStack] = [TraceStack]()) {
+    init(id: Int = 0, name: String = "", traceStacks: [TraceStack] = [TraceStack]()) {
         self.id = id
         self.name = name
         self.traceStacks = traceStacks

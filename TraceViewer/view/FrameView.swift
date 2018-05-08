@@ -16,6 +16,7 @@ class FrameView: NSView {
     ]
 
     var traceInfo: TraceInfo = TraceInfo()
+    var threadInfo: ThreadInfo = ThreadInfo()
     var drawingState = FrameDrawingState()
 
     override func draw(_ dirtyRect: NSRect) {
@@ -27,7 +28,7 @@ class FrameView: NSView {
 
         drawBackground(context: context, dirtyRect: dirtyRect)
         drawBottomLabels()
-        drawingChart(context: context, stacks: traceInfo.threads[0].traceStacks)
+        drawingChart(context: context, stacks: threadInfo.traceStacks)
     }
 
     private func barColor(idx: Int) -> Color {
@@ -99,8 +100,9 @@ class FrameView: NSView {
         context.fill(dirtyRect)
     }
 
-    public func update(traceInfo: TraceInfo) {
+    public func update(traceInfo: TraceInfo, threadInfo: ThreadInfo) {
         self.traceInfo = traceInfo
+        self.threadInfo = threadInfo;
         update(drawingState: FrameDrawingState(beginNs: traceInfo.minTimeNs, scaleNs: drawingState.scaleNs))
 
         self.display()
