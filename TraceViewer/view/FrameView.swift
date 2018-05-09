@@ -7,17 +7,19 @@ class FrameView: NSView {
 
     // drawing configurations
     let chartLeftMargin = 20
-    let chartBottomMargin = 40
+    let chartBottomMargin = 10
     let chartBarHeight = 15
     let chartMinTextWidth = 20
     let barColors = [
         Color(red: 0.501, green: 0.694, blue: 0.796),
         Color(red: 0.580, green: 0.812, blue: 0.631)
     ]
+    let bottomLineColor = Color(red: 0.6, green: 0.6, blue: 0.6)
 
     var traceInfo: TraceInfo = TraceInfo()
     var threadInfo: ThreadInfo = ThreadInfo()
     var drawingState = FrameDrawingState()
+    var mouseDragDelegate: ElementViewDelegate?
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -27,8 +29,8 @@ class FrameView: NSView {
         }
 
         drawBackground(context: context, dirtyRect: dirtyRect)
-        drawBottomLabels()
         drawingChart(context: context, stacks: threadInfo.traceStacks)
+        drawBottomLine(context: context)
     }
 
     private func barColor(idx: Int) -> Color {
@@ -74,30 +76,15 @@ class FrameView: NSView {
         }
     }
 
-    private func drawBottomLabels() {
-        let beginNs = drawingState.beginNs
-        let scaleNs = drawingState.scaleNs
-        let width: Int = Int(frame.width)
-        let left = chartLeftMargin
-        let yPos = 20
-        let xDelta = 100
-
-        let textColor = NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: 1.0)
-        let textAttributes = [
-            NSAttributedStringKey.font: NSFont.systemFont(ofSize: 15),
-            NSAttributedStringKey.foregroundColor: textColor,
-        ]
-        for xPos in stride(from: left, to: width, by: xDelta) {
-            let time = (beginNs + Int64(scaleNs * Double(xPos - left))) / 1000
-            let timeText = String(time)
-            let size = timeText.size(withAttributes: textAttributes)
-            timeText.draw(at: NSMakePoint(CGFloat(xPos) - size.width / 2.0, CGFloat(yPos)), withAttributes: textAttributes)
-        }
-    }
-
     private func drawBackground(context: CGContext, dirtyRect: NSRect) {
         context.setFillColor(red: 0.235, green: 0.247, blue: 0.254, alpha: 1.0)
         context.fill(dirtyRect)
+    }
+
+    private func drawBottomLine(context: CGContext) {
+        context.setFillColor(red: bottomLineColor.red, green: bottomLineColor.green, blue: bottomLineColor.blue, alpha: 1.0)
+        let drawingRect: CGRect = NSRect(x: 0, y: 0, width: Int(frame.width), height: 1)
+        context.fill(drawingRect)
     }
 
     public func update(traceInfo: TraceInfo, threadInfo: ThreadInfo) {
@@ -114,15 +101,13 @@ class FrameView: NSView {
         self.display()
     }
 
-    public func state() -> FrameDrawingState {
-        return drawingState
+    func setMouseDragDelegate(delegate: ElementViewDelegate) {
+        mouseDragDelegate = delegate
     }
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
 
-        let nsDelta = Int64(drawingState.scaleNs * Double(event.deltaX))
-        let nextState = drawingState.update(beginNs: drawingState.beginNs - nsDelta)
-        update(drawingState: nextState)
+        mouseDragDelegate?.mouseDragged(deltaX: event.deltaX)
     }
 }
