@@ -15,6 +15,10 @@ class FrameView: NSView {
         Color(red: 0.580, green: 0.812, blue: 0.631)
     ]
     let bottomLineColor = Color(red: 0.6, green: 0.6, blue: 0.6)
+    let threadNameTextAttributes: [NSAttributedStringKey: Any] = [
+        NSAttributedStringKey.font: NSFont.systemFont(ofSize: 11),
+        NSAttributedStringKey.foregroundColor: NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: 1.0),
+    ]
 
     static let closeBtnImage: NSImage = NSImage(named: NSImage.Name("close"))!
 
@@ -34,6 +38,7 @@ class FrameView: NSView {
         drawingChart(context: context, stacks: threadInfo.traceStacks)
         drawBottomLine(context: context)
         drawCloseBtn(context: context)
+        drawThreadName(context: context)
     }
 
     private func barColor(idx: Int) -> Color {
@@ -92,6 +97,11 @@ class FrameView: NSView {
 
     private func drawCloseBtn(context: CGContext) {
         FrameView.closeBtnImage.draw(in: closeBtnRect())
+    }
+
+    private func drawThreadName(context: CGContext) {
+        let drawingRect: CGRect = NSRect(x: 22, y: Int(frame.height) - 18, width: 200, height: 15)
+        threadInfo.name.draw(in: drawingRect, withAttributes: threadNameTextAttributes)
     }
 
     public func update(traceInfo: TraceInfo, threadInfo: ThreadInfo) {
