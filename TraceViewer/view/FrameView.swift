@@ -16,10 +16,12 @@ class FrameView: NSView {
     ]
     let bottomLineColor = Color(red: 0.6, green: 0.6, blue: 0.6)
 
+    static let closeBtnImage: NSImage = NSImage(named: NSImage.Name("close"))!
+
     var traceInfo: TraceInfo = TraceInfo()
     var threadInfo: ThreadInfo = ThreadInfo()
     var drawingState = FrameDrawingState()
-    var mouseDragDelegate: ElementViewDelegate?
+    var elementViewDelegate: ElementViewDelegate?
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -31,6 +33,7 @@ class FrameView: NSView {
         drawBackground(context: context, dirtyRect: dirtyRect)
         drawingChart(context: context, stacks: threadInfo.traceStacks)
         drawBottomLine(context: context)
+        drawCloseBtn(context: context)
     }
 
     private func barColor(idx: Int) -> Color {
@@ -87,12 +90,24 @@ class FrameView: NSView {
         context.fill(drawingRect)
     }
 
+    private func drawCloseBtn(context: CGContext) {
+        FrameView.closeBtnImage.draw(in: closeBtnRect())
+    }
+
     public func update(traceInfo: TraceInfo, threadInfo: ThreadInfo) {
         self.traceInfo = traceInfo
         self.threadInfo = threadInfo;
         update(drawingState: FrameDrawingState(beginNs: traceInfo.minTimeNs, scaleNs: drawingState.scaleNs))
 
         self.display()
+    }
+
+    private func closeBtnRect() -> NSRect {
+        let leftMargin = 3
+        let topMargin = 3
+        let width = 15
+        let height = 15
+        return NSRect(x: leftMargin, y: Int(frame.height) - height - topMargin, width: width, height: height)
     }
 
     public func update(drawingState: FrameDrawingState) {
@@ -102,12 +117,23 @@ class FrameView: NSView {
     }
 
     func setMouseDragDelegate(delegate: ElementViewDelegate) {
-        mouseDragDelegate = delegate
+        elementViewDelegate = delegate
     }
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
 
-        mouseDragDelegate?.mouseDragged(deltaX: event.deltaX)
+        elementViewDelegate?.mouseDragged(deltaX: event.deltaX)
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+
+        let btnRect = closeBtnRect()
+        let point = convert(event.locationInWindow, from:nil)
+
+        if NSPointInRect(point, btnRect) {
+            elementViewDelegate?.closeButtonClicked(frameView: self)
+        }
     }
 }

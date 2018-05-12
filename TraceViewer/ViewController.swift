@@ -114,6 +114,12 @@ class ViewController: NSViewController, NSWindowDelegate {
             update(drawingState: nextState)
         }
     }
+
+    func removeFrameView(frameView: FrameView) {
+        frameView.removeFromSuperview()
+        frameViewList = frameViewList.filter() { $0 !== frameView }
+        updateLayout()
+    }
 }
 
 extension ViewController: ElementViewDelegate {
@@ -121,5 +127,9 @@ extension ViewController: ElementViewDelegate {
         let nsDelta = Int64(drawingState.scaleNs * Double(deltaX))
         let nextState = drawingState.update(beginNs: drawingState.beginNs - nsDelta)
         update(drawingState: nextState)
+    }
+
+    func closeButtonClicked(frameView: FrameView) {
+        removeFrameView(frameView: frameView)
     }
 }
