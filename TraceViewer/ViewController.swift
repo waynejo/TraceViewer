@@ -66,9 +66,7 @@ class ViewController: NSViewController, NSWindowDelegate {
     }
 
     func updateLayout() {
-        guard let rect = view.window?.frame else {
-            return
-        }
+        let rect = view.frame
         timeTextView.frame = NSRect(x: 0, y: 0, width: Int(rect.width), height: textViewHeight)
         timeTextView.display()
 
