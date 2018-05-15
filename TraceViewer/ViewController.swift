@@ -11,6 +11,8 @@ import SnapKit
 
 class ViewController: NSViewController, NSWindowDelegate {
     @IBOutlet weak var threadPopupButton: NSPopUpButton!
+    
+    @IBOutlet weak internal var searchField: NSSearchField!
 
     let textViewHeight = 40
 
@@ -41,8 +43,13 @@ class ViewController: NSViewController, NSWindowDelegate {
         updateLayout()
         updateComboBox()
 
-        threadPopupButton.removeFromSuperview()
-        view.addSubview(threadPopupButton)
+        bringToFront(view: threadPopupButton)
+        bringToFront(view: searchField)
+    }
+    
+    private func bringToFront(view childView: NSView) {
+        childView.removeFromSuperview()
+        view.addSubview(childView)
     }
 
     override func viewDidAppear() {
