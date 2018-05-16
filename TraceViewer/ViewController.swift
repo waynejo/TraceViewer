@@ -9,10 +9,9 @@
 import Cocoa
 import SnapKit
 
-class ViewController: NSViewController, NSWindowDelegate {
+class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate {
     @IBOutlet weak var threadPopupButton: NSPopUpButton!
-    
-    @IBOutlet weak internal var searchField: NSSearchField!
+    @IBOutlet weak var searchField: NSSearchField!
 
     let textViewHeight = 40
 
@@ -38,6 +37,8 @@ class ViewController: NSViewController, NSWindowDelegate {
         timeTextView.update(traceInfo: traceInfo)
         timeTextView.setMouseDragDelegate(delegate: self)
         view.addSubview(timeTextView)
+
+        searchField.delegate = self
 
         update(drawingState: FrameDrawingState(beginNs: traceInfo.minTimeNs, scaleNs: drawingState.scaleNs))
         updateLayout()
@@ -124,6 +125,16 @@ class ViewController: NSViewController, NSWindowDelegate {
         frameView.removeFromSuperview()
         frameViewList = frameViewList.filter() { $0 !== frameView }
         updateLayout()
+    }
+
+    override func controlTextDidChange(_ obj: Notification) {
+        let text = searchField.stringValue
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if self.searchField.stringValue == text {
+                let nextState = self.drawingState.update(searchText: text)
+                self.update(drawingState: nextState)
+            }
+        }
     }
 }
 
