@@ -14,6 +14,10 @@ class FrameView: NSView {
         Color(red: 0.501, green: 0.694, blue: 0.796),
         Color(red: 0.580, green: 0.812, blue: 0.631)
     ]
+    let searchedBarColors = [
+        Color(red: 0.796, green: 0.294, blue: 0.101),
+        Color(red: 0.731, green: 0.112, blue: 0.280)
+    ]
     let bottomLineColor = Color(red: 0.6, green: 0.6, blue: 0.6)
     let threadNameTextAttributes: [NSAttributedStringKey: Any] = [
         NSAttributedStringKey.font: NSFont.systemFont(ofSize: 11),
@@ -41,8 +45,15 @@ class FrameView: NSView {
         drawThreadName(context: context)
     }
 
-    private func barColor(idx: Int) -> Color {
-        return barColors[idx % barColors.count]
+    private func barColor(idx: Int, functionName: String?) -> Color {
+        if drawingState.searchText.isEmpty {
+            return barColors[idx % barColors.count]
+        }
+        if let functionName = functionName,
+           !functionName.contains(drawingState.searchText) {
+            return barColors[idx % barColors.count]
+        }
+        return searchedBarColors[idx % barColors.count]
     }
 
     private func drawingChart(context: CGContext, stacks: [TraceStack], depth: Int = 0) {
@@ -64,8 +75,9 @@ class FrameView: NSView {
             if endNs <= stack.beginNs || beginNs >= stack.endNs {
                 continue
             }
+            let functionName = traceInfo.methodMap[stack.methodId]
 
-            let color = barColor(idx: idx)
+            let color = barColor(idx: idx, functionName: functionName)
             let xBegin = max(0, Int(Double(stack.beginNs - beginNs) / scaleNs))
             let xEnd = min(chartWidth, Int(Double(stack.endNs - beginNs) / scaleNs))
             context.setFillColor(red: color.red, green: color.green, blue: color.blue, alpha: 1.0)
@@ -76,9 +88,8 @@ class FrameView: NSView {
             let drawingRect: CGRect = NSRect(x: drawX, y: drawY, width: drawWidth, height: chartBarHeight)
             context.fill(drawingRect)
 
-            if chartMinTextWidth < drawWidth,
-                let functionName = traceInfo.methodMap[stack.methodId] {
-                functionName.draw(in: drawingRect, withAttributes: textAttributes)
+            if chartMinTextWidth < drawWidth {
+                functionName?.draw(in: drawingRect, withAttributes: textAttributes)
             }
             drawingChart(context: context, stacks: stack.children, depth: depth + 1)
         }
