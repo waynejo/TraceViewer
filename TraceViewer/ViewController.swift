@@ -12,7 +12,8 @@ import SnapKit
 class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate {
     @IBOutlet weak var threadPopupButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
-
+    @IBOutlet weak var addingThreadButton: NSButton!
+    
     let textViewHeight = 40
 
     var traceInfo = TraceInfo()
@@ -43,8 +44,10 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
         update(drawingState: FrameDrawingState(beginNs: traceInfo.minTimeNs, scaleNs: drawingState.scaleNs))
         updateLayout()
         updateComboBox()
+        setupAddingThreadButton()
 
         bringToFront(view: threadPopupButton)
+        bringToFront(view: addingThreadButton)
         bringToFront(view: searchField)
     }
     
@@ -71,6 +74,15 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
         for thread in traceInfo.threads {
             threadPopupButton.addItem(withTitle: thread.name)
         }
+    }
+
+    func setupAddingThreadButton() {
+        addingThreadButton.target = self
+        addingThreadButton.action = #selector(ViewController.didAddingThreadButtonClicked)
+    }
+
+    @objc func didAddingThreadButtonClicked() {
+
     }
 
     func updateLayout() {

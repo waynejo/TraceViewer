@@ -721,6 +721,14 @@
                                     </menu>
                                 </popUpButtonCell>
                             </popUpButton>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qih-qr-xMT">
+                                <rect key="frame" x="202" y="452" width="65" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KcY-hg-aOf">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIF-hI-X29">
                                 <rect key="frame" x="408" y="458" width="372" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
@@ -733,6 +741,7 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="addingThreadButton" destination="Qih-qr-xMT" id="AjJ-S4-n6i"/>
                         <outlet property="searchField" destination="gIF-hI-X29" id="p3w-RG-cR2"/>
                         <outlet property="threadPopupButton" destination="N4k-h0-kcD" id="2Cm-0Z-Qpx"/>
                     </connections>
