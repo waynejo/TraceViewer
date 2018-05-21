@@ -28,11 +28,7 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
 
 
         for thread in traceInfo.threads {
-            let frameView = FrameView()
-            frameView.update(traceInfo: traceInfo, threadInfo: thread)
-            frameView.setMouseDragDelegate(delegate: self)
-            frameViewList.append(frameView)
-            view.addSubview(frameView)
+            addThreadView(thread: thread)
         }
 
         timeTextView.update(traceInfo: traceInfo)
@@ -46,11 +42,23 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
         updateComboBox()
         setupAddingThreadButton()
 
+        reorderChildViews()
+    }
+
+    private func reorderChildViews() {
         bringToFront(view: threadPopupButton)
         bringToFront(view: addingThreadButton)
         bringToFront(view: searchField)
     }
-    
+
+    private func addThreadView(thread: ThreadInfo) {
+        let frameView = FrameView()
+        frameView.update(traceInfo: traceInfo, threadInfo: thread)
+        frameView.setMouseDragDelegate(delegate: self)
+        frameViewList.append(frameView)
+        view.addSubview(frameView)
+    }
+
     private func bringToFront(view childView: NSView) {
         childView.removeFromSuperview()
         view.addSubview(childView)
@@ -82,7 +90,9 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
     }
 
     @objc func didAddingThreadButtonClicked() {
-
+        addThreadView(thread: traceInfo.threads[threadPopupButton.indexOfSelectedItem])
+        reorderChildViews()
+        updateLayout()
     }
 
     func updateLayout() {
