@@ -25,6 +25,8 @@ class FrameView: NSView {
     ]
 
     static let closeBtnImage: NSImage = NSImage(named: NSImage.Name("close"))!
+    static let arrowDownBtnImage: NSImage = NSImage(named: NSImage.Name("arrow_down"))!
+    static let arrowUpBtnImage: NSImage = NSImage(named: NSImage.Name("arrow_up"))!
 
     var traceInfo: TraceInfo = TraceInfo()
     var threadInfo: ThreadInfo = ThreadInfo()
@@ -42,6 +44,8 @@ class FrameView: NSView {
         drawingChart(context: context, stacks: threadInfo.traceStacks)
         drawBottomLine(context: context)
         drawCloseBtn(context: context)
+        drawArrowDownBtn(context: context)
+        drawArrowUpBtn(context: context)
         drawThreadName(context: context)
     }
 
@@ -110,8 +114,16 @@ class FrameView: NSView {
         FrameView.closeBtnImage.draw(in: closeBtnRect())
     }
 
+    private func drawArrowDownBtn(context: CGContext) {
+        FrameView.arrowDownBtnImage.draw(in: arrowDownBtnRect())
+    }
+
+    private func drawArrowUpBtn(context: CGContext) {
+        FrameView.arrowUpBtnImage.draw(in: arrowUpBtnRect())
+    }
+
     private func drawThreadName(context: CGContext) {
-        let drawingRect: CGRect = NSRect(x: 22, y: Int(frame.height) - 18, width: 200, height: 15)
+        let drawingRect: CGRect = NSRect(x: 37, y: Int(frame.height) - 18, width: 200, height: 15)
         threadInfo.name.draw(in: drawingRect, withAttributes: threadNameTextAttributes)
     }
 
@@ -124,7 +136,23 @@ class FrameView: NSView {
     }
 
     private func closeBtnRect() -> NSRect {
+        let rightMargin = 3
+        let topMargin = 3
+        let width = 15
+        let height = 15
+        return NSRect(x: Int(frame.width) - width - rightMargin, y: Int(frame.height) - height - topMargin, width: width, height: height)
+    }
+
+    private func arrowDownBtnRect() -> NSRect {
         let leftMargin = 3
+        let topMargin = 3
+        let width = 15
+        let height = 15
+        return NSRect(x: leftMargin, y: Int(frame.height) - height - topMargin, width: width, height: height)
+    }
+
+    private func arrowUpBtnRect() -> NSRect {
+        let leftMargin = 18
         let topMargin = 3
         let width = 15
         let height = 15
@@ -150,11 +178,14 @@ class FrameView: NSView {
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
 
-        let btnRect = closeBtnRect()
         let point = convert(event.locationInWindow, from:nil)
 
-        if NSPointInRect(point, btnRect) {
+        if NSPointInRect(point, closeBtnRect()) {
             elementViewDelegate?.closeButtonClicked(frameView: self)
+        } else if NSPointInRect(point, arrowDownBtnRect()) {
+            elementViewDelegate?.moveDownButtonClicked(frameView: self)
+        } else if NSPointInRect(point, arrowUpBtnRect()) {
+            elementViewDelegate?.moveUpButtonClicked(frameView: self)
         }
     }
 }

@@ -158,6 +158,20 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
             }
         }
     }
+
+    func moveView(frameView: FrameView, delta: Int) {
+        let begin = max(0, delta)
+        let end = frameViewList.count - max(0, delta)
+        for idx in begin..<end {
+            if frameViewList[idx] == frameView {
+                let view = frameViewList[idx]
+                frameViewList[idx] = frameViewList[idx + delta]
+                frameViewList[idx + delta] = view
+                updateLayout()
+                break
+            }
+        }
+    }
 }
 
 extension ViewController: ElementViewDelegate {
@@ -169,5 +183,13 @@ extension ViewController: ElementViewDelegate {
 
     func closeButtonClicked(frameView: FrameView) {
         removeFrameView(frameView: frameView)
+    }
+
+    func moveDownButtonClicked(frameView: FrameView) {
+        moveView(frameView: frameView, delta: -1)
+    }
+
+    func moveUpButtonClicked(frameView: FrameView) {
+        moveView(frameView: frameView, delta: 1)
     }
 }
