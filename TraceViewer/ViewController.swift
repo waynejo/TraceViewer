@@ -10,6 +10,8 @@ import Cocoa
 import SnapKit
 
 class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate {
+    static let topMarginForStackView = 52
+
     @IBOutlet weak var threadPopupButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
     @IBOutlet weak var addingThreadButton: NSButton!
@@ -41,14 +43,6 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
         updateLayout()
         updateComboBox()
         setupAddingThreadButton()
-
-        reorderChildViews()
-    }
-
-    private func reorderChildViews() {
-        bringToFront(view: threadPopupButton)
-        bringToFront(view: addingThreadButton)
-        bringToFront(view: searchField)
     }
 
     private func addThreadView(thread: ThreadInfo) {
@@ -91,7 +85,6 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
 
     @objc func didAddingThreadButtonClicked() {
         addThreadView(thread: traceInfo.threads[threadPopupButton.indexOfSelectedItem])
-        reorderChildViews()
         updateLayout()
     }
 
@@ -101,10 +94,12 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
         timeTextView.display()
 
         let viewNum = frameViewList.count
-        let viewHeight = Int(rect.height)
+        let viewTopMargin = textViewHeight
+        let viewBottomMargin = ViewController.topMarginForStackView
+        let viewHeight = Int(rect.height) - viewBottomMargin - viewTopMargin
         for idx in 0..<viewNum {
-            let yBegin = viewHeight * idx / viewNum
-            let yEnd = viewHeight * (idx + 1) / viewNum
+            let yBegin = viewHeight * idx / viewNum + viewTopMargin
+            let yEnd = viewHeight * (idx + 1) / viewNum + viewTopMargin
             frameViewList[idx].frame = NSRect(x: 0, y: yBegin, width: Int(rect.width), height: yEnd - yBegin)
             frameViewList[idx].display()
         }
