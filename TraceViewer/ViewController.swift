@@ -28,21 +28,31 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
 
         view.translatesAutoresizingMaskIntoConstraints = false
 
+        timeTextView.setMouseDragDelegate(delegate: self)
+        view.addSubview(timeTextView)
+
+        didTraceInfoUpdated()
+
+        searchField.delegate = self
+
+        updateLayout()
+        updateComboBox()
+        setupAddingThreadButton()
+    }
+
+    private func didTraceInfoUpdated() {
+        for frameView in frameViewList {
+            frameView.removeFromSuperview()
+        }
+        frameViewList.removeAll()
 
         for thread in traceInfo.threads {
             addThreadView(thread: thread)
         }
 
         timeTextView.update(traceInfo: traceInfo)
-        timeTextView.setMouseDragDelegate(delegate: self)
-        view.addSubview(timeTextView)
-
-        searchField.delegate = self
-
         update(drawingState: FrameDrawingState(beginNs: traceInfo.minTimeNs, scaleNs: drawingState.scaleNs))
         updateLayout()
-        updateComboBox()
-        setupAddingThreadButton()
     }
 
     private func addThreadView(thread: ThreadInfo) {
@@ -166,6 +176,11 @@ class ViewController: NSViewController, NSWindowDelegate, NSSearchFieldDelegate 
                 break
             }
         }
+    }
+
+    func loadFile(filePath: String) {
+        traceInfo = AndroidTraceParser.parse(path: filePath)
+        didTraceInfoUpdated()
     }
 }
 
